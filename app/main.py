@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 
 from app.database import Base, SessionLocal, engine
 from app.errors import CouponError, OrderValidationError, OutOfStockError
-from app.routers import orders, products
+from app.routers import admin, orders, products, search
 from app.seed import seed
 
 
@@ -20,6 +20,8 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="Shoplite Order Service", lifespan=lifespan)
 app.include_router(products.router)
 app.include_router(orders.router)
+app.include_router(search.router)
+app.include_router(admin.router)
 
 
 @app.exception_handler(OrderValidationError)
