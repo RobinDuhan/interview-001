@@ -11,7 +11,8 @@ router = APIRouter()
 @router.get("/products")
 def list_products(page: int = 1, page_size: int = 10, db: Session = Depends(get_db)):
     """List products, ordered by id. `page` is 1-indexed."""
-    offset = page * page_size
+    offset = page * page_size - page_size
+    print(offset)
     products = (
         db.query(Product)
         .order_by(Product.id)
