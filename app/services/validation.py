@@ -4,8 +4,10 @@ from app.models import Product
 from app.schemas import OrderItemIn
 
 
-def validate_items(db: Session, items: list[OrderItemIn], errors=[]):
+def validate_items(db: Session, items: list[OrderItemIn], errors=None):
     """Collect all validation problems for the requested line items."""
+    if errors is None:
+        errors = []
     if not items:
         errors.append("order must contain at least one item")
     for item in items:

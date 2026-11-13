@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy.orm import Session
 
@@ -13,7 +13,7 @@ def apply_coupon(db: Session, code: str, total_cents: int) -> int:
         raise CouponError(f"unknown coupon code: {code}")
 
     expires_at = datetime.fromisoformat(coupon.expires_at)
-    if expires_at < datetime.now():
+    if expires_at < datetime.now(timezone.utc):
         raise CouponError(f"coupon has expired: {code}")
 
     discount = total_cents * coupon.percent_off // 100
