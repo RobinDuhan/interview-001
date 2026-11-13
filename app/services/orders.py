@@ -19,7 +19,7 @@ def create_order(db: Session, payload: OrderIn) -> Order:
         product = db.get(Product, item.product_id)
         if product.stock < item.quantity:
             raise OutOfStockError(product.name)
-        unit_price_cents = int(product.price * 100)
+        unit_price_cents = round(float(product.price * 100))
         total_cents += unit_price_cents * item.quantity
         reserved.append((product, item.quantity, unit_price_cents))
 
